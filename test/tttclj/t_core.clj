@@ -14,12 +14,15 @@
        (opponent :x) => :o
        (opponent :o) => :x)
 
+(def game1 (make-move 3 (create-game)))
+
 (facts "about `make-move'"
        (fact "the player should swap to :o"
-             (:player (make-move 3 (create-game))) => :o)
+             (:player game1) => :o)
        (fact "one tile is taken now"
-             (frequencies (:tiles (make-move 3 (create-game)))) => { :- 8 :x 1}))
-
+             (frequencies (:tiles game1)) => { :- 8 :x 1})
+       (fact "cannot make same move again"
+             (make-move 3 (make-move 3 (create-game))) => nil))
 
 (facts "about `possible-moves'"
        (fact "there should be 9 to start"
