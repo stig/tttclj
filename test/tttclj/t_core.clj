@@ -26,4 +26,6 @@
 
 (facts "about `possible-moves'"
        (fact "there should be 9 to start"
-             (count (possible-moves (create-game))) => 9))
+             (count (possible-moves (create-game))) => 9)
+       (fact "there should be 8 after the first move"
+             (count (possible-moves game1)) => 8))
