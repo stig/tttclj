@@ -8,7 +8,8 @@
                  (map :player)
                  (frequencies)) => { :x 100 })
        (fact "no tiles are set to start with"
-             (:tiles (create-game)) => []))
+             (frequencies (:tiles (create-game))) => { :- 9 }))
 
-
-
+(facts "about `possible-moves'"
+       (fact "there should be 9 to start"
+             (count (possible-moves (create-game))) => 9))
