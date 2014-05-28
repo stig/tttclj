@@ -8,8 +8,11 @@
   (cond (= :x player) :o
         (= :o player) :x))
 
-(defn make-move [idx game]
-  (cond (= :- (nth (:tiles game) idx))
+(defn- is-legal-move? [game idx]
+  (= :- (nth (:tiles game) idx)))
+
+(defn make-move [game idx]
+  (cond (is-legal-move? game idx)
         (let [p (:player game)
               t (:tiles game)
               g (assoc game :player (opponent p))]
