@@ -11,7 +11,7 @@
 (defn- is-legal-move? [game idx]
   (= :- (nth (:tiles game) idx)))
 
-(defn make-move [game idx]
+(defn successor [game idx]
   (cond (is-legal-move? game idx)
         (let [p (:player game)
               t (:tiles game)
