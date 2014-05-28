@@ -30,3 +30,19 @@
        (fact "there should be 8 after the first move"
              (count (possible-moves game1)) => 8))
 
+(facts "about `fitness'"
+       (fact "--- --- ---"
+             (fitness (create-game)) => 0)
+       (fact "x-- --- ---"
+             (fitness (successor (create-game) 0)) => -3)
+       (fact "-x- --- ---"
+             (fitness (successor (create-game) 1)) => -2)
+       (fact "--- -x- ---"
+             (fitness (successor (create-game) 4)) => -4)
+       (fact "o-- -x- ---"
+             (fitness (-> (create-game) (successor 4) (successor 0))) => 1)
+       (fact "-o- -x- ---"
+             (fitness (-> (create-game) (successor 4) (successor 1))) => 2)
+       (fact "--o -xx ---"
+             (fitness (-> (create-game) (successor 4) (successor 2) (successor 5))) => -9))
+
