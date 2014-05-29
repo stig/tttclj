@@ -40,3 +40,38 @@
        (fact "--o -xx ---"
              (fitness (-> (create-game) (successor 4) (successor 2) (successor 5))) => -9))
 
+(def game-drawn
+  (-> (create-game)
+      (successor 0)   ;; x-- --- ---
+      (successor 3)   ;; x-- o-- ---
+      (successor 1)   ;; xx- o-- ---
+      (successor 4)   ;; xx- oo- ---
+      (successor 6)   ;; xx- oo- x--
+      (successor 2)   ;; xxo oo- x--
+      (successor 5)   ;; xxo oox x--
+      (successor 7)   ;; xxo oox xo-
+      (successor 8))) ;; xxo oox xox
+
+(def game-won-by-x
+  (-> (create-game)
+      (successor 0)   ;; x-- --- ---
+      (successor 3)   ;; x-- o-- ---
+      (successor 1)   ;; xx- o-- ---
+      (successor 4)   ;; xx- oo- ---
+      (successor 2))) ;; xxx oo- ---
+
+(facts "about `is-game-over?'"
+       (fact "is not true at start of game"
+             (is-game-over? (create-game)) => false)
+       (fact "is true when no more moves left"
+             (is-game-over? game-drawn) => true)
+       (fact "is true when there is a winning line"
+             (is-game-over? game-won-by-x) => true))
+
+(facts "about `winner'"
+       (fact "is not true at start of game"
+             (winner (create-game)) => nil)
+       (fact "is not true one move in"
+             (winner (-> (create-game) (successor 0))) => nil)
+       (fact "returns winner when there is a winning line"
+             (winner game-won-by-x) => :x))

@@ -24,7 +24,7 @@
   (->> (map-indexed vector (:tiles game))
        (keep #(cond (= :- (second %)) (first %)))))
 
-(defn- lines []
+(defn lines []
   "All possible winning lines"
   [[0 1 2] ;; horizontal
    [3 4 5]
@@ -66,3 +66,32 @@
 
          ;; Add up total score for the board
          (reduce +))))
+
+(defn- is-winning-line? [line] 
+  (or
+   (every? #{:o} line)
+   (every? #{:x} line)))
+
+(defn- winner? [line]
+  (if (empty? line)
+    nil
+    (first line)))
+
+(defn winner [game]
+  "Returns the winning player, or nil if there is no winner"
+  (let [tiles (:tiles game)]
+    (->> (lines)
+         (map #(map tiles %))
+         (filter is-winning-line?)
+         (first)
+         (winner?))))
+
+
+(defn is-game-over? [game] 
+  "Returns `true' if the game is finished, nil otherwise"
+  (if (winner game)
+    true
+    (->> (:tiles game)
+         (keep #(= :- %))
+         (not-any? true?))))
+
