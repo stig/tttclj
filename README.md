@@ -1,8 +1,11 @@
 # tttclj
 
-The project uses [Midje](https://github.com/marick/Midje/).
+This is a toy project for me to learn Clojure. (And relearn Emacs).
+
 
 ## How to run the tests
+
+The project uses [Midje](https://github.com/marick/Midje/).
 
 `lein midje` will run all tests.
 
