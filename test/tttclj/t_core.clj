@@ -10,17 +10,11 @@
        (fact "no tiles are set to start with"
              (frequencies (:tiles (create-game))) => { :- 9 }))
 
-(facts "about `opponent'"
-       (opponent :x) => :o
-       (opponent :o) => :x)
-
-(def game1 (successor (create-game) 3))
-
 (facts "about `successor'"
        (fact "should swap the player to :o"
              (:player game1) => :o)
        (fact "one tile is taken now"
-             (frequencies (:tiles game1)) => { :- 8 :x 1})
+             (frequencies (:tiles (successor (create-game) 3))) => { :- 8 :x 1})
        (fact "cannot make same move again"
              (successor (successor (create-game) 3) 3) => nil))
 
@@ -28,7 +22,7 @@
        (fact "there should be 9 to start"
              (count (possible-moves (create-game))) => 9)
        (fact "there should be 8 after the first move"
-             (count (possible-moves game1)) => 8))
+             (count (possible-moves (successor (create-game) 3))) => 8))
 
 (facts "about `fitness'"
        (fact "--- --- ---"

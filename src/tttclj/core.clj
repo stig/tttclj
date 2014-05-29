@@ -4,7 +4,7 @@
   {:player :x
    :tiles (apply vector (repeat 9 :-)) } )
 
-(defn opponent [player]
+(defn- opponent [player]
   (cond (= :x player) :o
         (= :o player) :x))
 
