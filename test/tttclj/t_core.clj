@@ -12,7 +12,7 @@
 
 (facts "about `successor'"
        (fact "should swap the player to :o"
-             (:player game1) => :o)
+             (:player (successor (create-game) 0)) => :o)
        (fact "one tile is taken now"
              (frequencies (:tiles (successor (create-game) 3))) => { :- 8 :x 1})
        (fact "cannot make same move again"
