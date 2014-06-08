@@ -25,3 +25,21 @@
                  {:player :o, :tiles [:- :- :x :x :x :o :o :x :o]}
                  {:player :x, :tiles [:- :o :x :x :x :o :o :x :o]}
                  {:player :o, :tiles [:x :o :x :x :x :o :o :x :o]}]))
+
+(facts "about alphabeta"
+       (fact "it plays the same game as minimax"
+             (loop [game (create-game) history []]
+               (if (is-game-over? game)
+                 (conj history game)
+                 (recur (successor game (alphabeta game 3)) (conj history game))))
+             => [{:player :x, :tiles [:- :- :- :- :- :- :- :- :-]}
+                 {:player :o, :tiles [:- :- :- :- :x :- :- :- :-]}
+                 {:player :x, :tiles [:- :- :- :- :x :- :- :- :o]}
+                 {:player :o, :tiles [:- :- :- :x :x :- :- :- :o]}
+                 {:player :x, :tiles [:- :- :- :x :x :o :- :- :o]}
+                 {:player :o, :tiles [:- :- :x :x :x :o :- :- :o]}
+                 {:player :x, :tiles [:- :- :x :x :x :o :o :- :o]}
+                 {:player :o, :tiles [:- :- :x :x :x :o :o :x :o]}
+                 {:player :x, :tiles [:- :o :x :x :x :o :o :x :o]}
+                 {:player :o, :tiles [:x :o :x :x :x :o :o :x :o]}]))
+
