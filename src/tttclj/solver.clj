@@ -2,19 +2,17 @@
   (:use tttclj.core))
 
 (defn minimax-inner [game]
-  ;; (println game ";; =>" (fitness game))
   (if (is-game-over? game)
     (fitness game)
-    (loop [moves (possible-moves game)
-           max_sc Integer/MIN_VALUE]
-      (if-let [move (first moves)]
-        (let [succ (successor game move)
-              sc (- (minimax-inner succ))]
-          (recur (rest moves) (if (> sc max_sc) sc max_sc)))
-        max_sc))))
+    (->> (possible-moves game)
+         (map (fn [move] [move (- (minimax-inner (successor game move)))]))
+         (into {})
+         (apply max-key val)
+         (key))))
 
 (defn minimax [game]
-  (key (apply max-key val 
-              (->> (possible-moves game)
-                   (map (fn [m] [m (minimax-inner (successor game m))]))
-                   (into {})))))
+  (->> (possible-moves game)
+       (map (fn [m] [m (minimax-inner (successor game m))]))
+       (into {})
+       (apply max-key val)
+       (key)))

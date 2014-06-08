@@ -4,5 +4,7 @@
   (:use [tttclj.solver]))
 
 (facts "about minimax"
-       (fact "it picks any move from the starting position"
-             (minimax (create-game)) => 8))
+       (fact "blocks o's possibility to win @ xo- --- ---"
+             (minimax (-> (create-game)
+                          (successor 0)
+                          (successor 1))) => 7))
