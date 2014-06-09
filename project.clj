@@ -3,6 +3,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2227"]
                  [http-kit "2.1.16"]
+                 [quiescent "0.1.3"]
                  [compojure "1.1.8"]]
   :profiles {:dev {:dependencies [[midje "1.5.0"]]
                    :plugins [[lein-cljsbuild "1.0.3"]]

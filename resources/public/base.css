@@ -1,0 +1,58 @@
+
+.grid {
+    border: 10px solid #a49e96; 
+    border-radius: 10px;
+    margin: 20px; 
+    background: #938d85;
+}
+
+.cell {
+    border: 2px solid #a49e96;
+    float: left; 
+    width: 100px; 
+    height: 100px; 
+    position: relative;
+    -webkit-perspective: 300px;
+}
+
+.line {}
+
+.n {}
+
+.x {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+}
+
+.o {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid blue;
+}
+
+clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix { 
+    height: 1%;
+}
+
