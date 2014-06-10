@@ -10,7 +10,7 @@
 
 (q/defcomponent Turn
   "Renders a component saying whose turn it is"
-  [player]
+  [game]
   (d/p {} (str "It is " player "'s turn:")))
 
 (q/defcomponent Cell
@@ -36,7 +36,7 @@
   "Renders a TicTacToe game"
   [game]
   (d/div {}
-         (Turn (:player game))
+         (Turn game)
          (Grid (:tiles game))))
 
 (q/render (Game state)
