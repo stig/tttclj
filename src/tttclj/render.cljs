@@ -2,6 +2,7 @@
   (:require [quiescent :as q :include-macros true]
             [quiescent.dom :as d]))
 
+
 (def state {:tiles [:x :o :-
                     :x :- :o
                     :- :x :o]
@@ -11,7 +12,7 @@
 (q/defcomponent Turn
   "Renders a component saying whose turn it is"
   [game]
-  (d/p {} (str "It is " player "'s turn:")))
+  (d/p {} (str "It is " (name (:player game)) "'s turn:")))
 
 (q/defcomponent Cell
   "Renders a cell in the TicTacToe grid"
