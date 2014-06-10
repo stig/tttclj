@@ -2,8 +2,7 @@
   (:require [quiescent :as q :include-macros true]
             [quiescent.dom :as d]))
 
-
-(def state {:tiles [:x :o :- 
+(def state {:tiles [:x :o :-
                     :x :- :o
                     :- :x :o]
             :player :x})
