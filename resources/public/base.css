@@ -20,19 +20,16 @@
 .n {}
 
 .x {
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 100px solid red;
+    height: 80px;
+    width: 80px;
+    border: 10px solid red;
 }
 
 .o {
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-top: 100px solid blue;
+    height: 80px;
+    width: 80px;
+    border: 10px solid blue;
+    border-radius: 100px;
 }
 
 clearfix:after {

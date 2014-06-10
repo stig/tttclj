@@ -3,9 +3,9 @@
             [quiescent.dom :as d]))
 
 
-(def state {:tiles [:- :- :- 
-                    :o :x :o
-                    :x :o :x]
+(def state {:tiles [:x :o :- 
+                    :x :- :o
+                    :- :x :o]
             :player :x})
 
 
