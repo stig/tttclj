@@ -1,7 +1,7 @@
 (ns tttclj.t-solver
-  (:use midje.sweet)
-  (:use [tttclj.core])
-  (:use [tttclj.solver]))
+  (:require [midje.sweet :refer :all]
+            [tttclj.core :refer :all]
+            [tttclj.solver :refer :all]))
 
 (facts "about minimax"
        (fact "it picks the center @ xo- --- --- at ply 9"

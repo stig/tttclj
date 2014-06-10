@@ -1,6 +1,6 @@
 (ns tttclj.t-core
-  (:use midje.sweet)
-  (:use [tttclj.core]))
+  (:require [midje.sweet :refer :all]
+            [tttclj.core :refer :all]))
 
 (facts "about `create-game'"
        (fact "x always starts"
