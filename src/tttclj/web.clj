@@ -11,11 +11,10 @@
    :body "Hello HTTP via Compojure!"})
 
 (defn ws-handler [{:keys [ws-channel] :as req}]
-  (prn (:remote-addr req)) 
+  (prn (:async-channel req))
   (go-loop [i 10]
     (<! (timeout 1000))
     (>! ws-channel (str "Hello from server" i))
-    (prn req)
     (when (> i 0)
       (recur (dec i)))))
 
@@ -26,5 +25,5 @@
   (GET "/" [] index))
 
 (defn -main [& args]
-  (run-server app {:port 8080})
+  (run-server #'app {:port 8080})
   (println "Started server on http://localhost:8080"))
