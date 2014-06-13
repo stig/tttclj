@@ -1,5 +1,7 @@
 (ns tttclj.render
-  (:require [quiescent :as q :include-macros true]
+  (:require [chord.client :refer [ws-ch]]
+            [cljs.core.async :refer [chan <! >! put! close! timeout]]
+            [quiescent :as q :include-macros true]
             [quiescent.dom :as d]))
 
 (def state {:tiles [:x :o :-
@@ -46,3 +48,11 @@
 
 (q/render (Game state)
           (.getElementById js/document "main"))
+
+
+(enable-console-print!)
+
+(go 
+  (let [server-ch (<! (ws-ch "ws://localhost:8080/ws"))]
+    (go
+      (prn (<! server-ch)))))

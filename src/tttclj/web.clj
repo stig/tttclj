@@ -11,16 +11,15 @@
    :body "Hello HTTP via Compojure!"})
 
 (defn ws-handler [{:keys [ws-channel] :as req}]
-  (println ws-channel)
-  "ws-handler"
-  )
+  (prn (:remote-addr req)) 
+  (go 
+    (>! ws-channel "Hello from server!")))
 
 (defroutes app
   (resources "/")
-  (GET "/ws" [] ws-handler)
+  (GET "/ws" [] (-> ws-handler
+                    (wrap-websocket-handler)))
   (GET "/" [] index))
-
-
 
 (defn -main [& args]
   (run-server app {:port 8080})
