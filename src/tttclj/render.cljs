@@ -54,9 +54,9 @@
   (let [server-ch (<! (ws-ch "ws://localhost:8080/ws" {:format :edn}))
         container (.getElementById js/document "main")]
     (go-loop []
-      (when-let [msg (<! (:ws-channel server-ch))]
-        (q/render (Game (:message msg)) container)
-        (prn msg)
+      (when-let [envelope (<! (:ws-channel server-ch))]
+        (q/render (Game (:message envelope)) container)
+        (prn envelope)
         (recur)))
     (prn (str "cannot read from server-ch" server-ch "any more"))))
   
