@@ -19,7 +19,7 @@
   (let [game (atom (create-game))]
     (go-loop []
       (>! ws-channel @game)
-      (<! (timeout 100))
+      (<! (timeout 500))
       (swap! game make-random-move)
       (if (not (is-game-over? @game))
         (recur)))))

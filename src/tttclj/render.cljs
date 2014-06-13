@@ -47,16 +47,15 @@
          (Turn game)
          (Grid (:tiles game))))
 
-(q/render (Game state)
-          (.getElementById js/document "main"))
-
 
 (enable-console-print!)
 
 (go
-  (let [server-ch (<! (ws-ch "ws://localhost:8080/ws" {:format :edn}))]
+  (let [server-ch (<! (ws-ch "ws://localhost:8080/ws" {:format :edn}))
+        container (.getElementById js/document "main")]
     (go-loop []
       (when-let [msg (<! (:ws-channel server-ch))]
+        (q/render (Game (:message msg)) container)
         (prn msg)
         (recur)))
     (prn (str "cannot read from server-ch" server-ch "any more"))))
