@@ -3,7 +3,8 @@
             [clojure.core.async :refer [<! >! put! close! go go-loop timeout]]
             [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [resources]]
-            [org.httpkit.server :refer [run-server]]))
+            [org.httpkit.server :refer [run-server]]
+            [tttclj.core :refer [create-game]]))
 
 (defn index [req]
   {:status 200
@@ -11,17 +12,16 @@
    :body "Hello HTTP via Compojure!"})
 
 (defn ws-handler [{:keys [ws-channel] :as req}]
-  (prn (:async-channel req))
-  (go-loop [i 10]
-    (<! (timeout 1000))
-    (>! ws-channel (str "Hello from server" i))
-    (when (> i 0)
-      (recur (dec i)))))
+  (println (:async-channel req))
+  (go
+    (let [game (create-game)]
+      (prn game)
+      (>! ws-channel game))))
 
 (defroutes app
   (resources "/")
   (GET "/ws" [] (-> ws-handler
-                    (wrap-websocket-handler)))
+                    (wrap-websocket-handler {:format :edn})))
   (GET "/" [] index))
 
 (defn -main [& args]

@@ -54,7 +54,10 @@
 (enable-console-print!)
 
 (go
-  (prn "hello")
-  (let [server-ch (<! (ws-ch "ws://localhost:8080/ws"))]
+  (let [server-ch (<! (ws-ch "ws://localhost:8080/ws" {:format :edn}))]
     (go-loop []
-      (prn {:foo (<! server-ch)}))))
+      (when-let [msg (<! (:ws-channel server-ch))]
+        (prn msg)
+        (recur)))
+    (prn (str "cannot read from server-ch" server-ch "any more"))))
+  
