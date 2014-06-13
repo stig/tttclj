@@ -56,5 +56,5 @@
 (go
   (prn "hello")
   (let [server-ch (<! (ws-ch "ws://localhost:8080/ws"))]
-    (go
-      (prn (<! server-ch)))))
+    (go-loop []
+      (prn {:foo (<! server-ch)}))))
