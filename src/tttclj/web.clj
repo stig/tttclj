@@ -4,19 +4,25 @@
             [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [resources]]
             [org.httpkit.server :refer [run-server]]
-            [tttclj.core :refer [create-game]]))
+            [tttclj.core :refer :all]))
 
 (defn index [req]
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body "Hello HTTP via Compojure!"})
 
+(defn- make-random-move [g]
+  (successor g (rand-nth (possible-moves g))))
+
 (defn ws-handler [{:keys [ws-channel] :as req}]
   (println (:async-channel req))
-  (go
-    (let [game (create-game)]
-      (prn game)
-      (>! ws-channel game))))
+  (let [game (atom (create-game))]
+    (go-loop []
+      (>! ws-channel @game)
+      (<! (timeout 100))
+      (swap! game make-random-move)
+      (if (not (is-game-over? @game))
+        (recur)))))
 
 (defroutes app
   (resources "/")
