@@ -2,7 +2,8 @@
   (:require [chord.client :refer [ws-ch]]
             [cljs.core.async :refer [chan <! >! put! close! timeout]]
             [quiescent :as q :include-macros true]
-            [quiescent.dom :as d]))
+            [quiescent.dom :as d])
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 (def state {:tiles [:x :o :-
                     :x :- :o
@@ -52,7 +53,8 @@
 
 (enable-console-print!)
 
-(go 
+(go
+  (prn "hello")
   (let [server-ch (<! (ws-ch "ws://localhost:8080/ws"))]
     (go
       (prn (<! server-ch)))))
