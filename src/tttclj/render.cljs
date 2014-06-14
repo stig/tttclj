@@ -5,17 +5,11 @@
             [quiescent.dom :as d])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-(def state {:tiles [:x :o :-
-                    :x :- :o
-                    :- :x :o]
-            :player-turn :x})
-
-
 (q/defcomponent Turn
   "Renders a component saying whose turn it is"
   [game]
   (d/p {} 
-       (if-let [player (:player-turn game)]
+       (if-let [player (:turn game)]
          (str "It is " (name player) "'s turn")
          (if-let [winner (:winner game)]
            (str (name winner) " won the match!")
@@ -25,8 +19,8 @@
   "Renders a cell in the TicTacToe grid"
   [cell]
   (d/div {:className "cell"}
-         (if (not (= cell :-))
-           (d/div {:className (name cell)}))))
+         (if-let [player (:player cell)]
+           (d/div {:className (name player)}))))
 
 (q/defcomponent Line
   "Renders a line in the TicTacToe grid"
@@ -36,17 +30,16 @@
 
 (q/defcomponent Grid
   "Renders a TicTacToe Grid"
-  [tiles]
+  [cells]
   (apply d/div {:className "grid clearfix"}
-         (map Line (partition 3 tiles))))
+         (map Line (partition 3 cells))))
 
 (q/defcomponent Game
   "Renders a TicTacToe game"
   [game]
   (d/div {}
          (Turn game)
-         (Grid (:tiles game))))
-
+         (Grid (:cells game))))
 
 (enable-console-print!)
 
