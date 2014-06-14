@@ -17,39 +17,41 @@
 
 (q/defcomponent Cell
   "Renders a cell in the TicTacToe grid"
-  [cell]
-  (d/div {:className "cell"}
+  [cell player-moves]
+  (d/div {:className "cell"
+          :onClick #(put! player-moves (:id cell))}
          (if-let [player (:player cell)]
            (d/div {:className (name player)}))))
 
 (q/defcomponent Line
   "Renders a line in the TicTacToe grid"
-  [cells]
+  [cells player-moves]
   (apply d/div {:className "line"}
-         (map Cell cells)))
+         (map #(Cell % player-moves) cells)))
 
 (q/defcomponent Grid
   "Renders a TicTacToe Grid"
-  [cells]
+  [cells player-moves]
   (apply d/div {:className "grid clearfix"}
-         (map Line (partition 3 cells))))
+         (map #(Line % player-moves) (partition 3 cells))))
 
 (q/defcomponent Game
   "Renders a TicTacToe game"
-  [game]
+  [game player-moves]
   (d/div {}
          (Turn game)
-         (Grid (:cells game))))
+         (Grid (:cells game) player-moves)))
 
 (enable-console-print!)
 
 (go
   (let [server-ch (<! (ws-ch "ws://localhost:8080/ws" {:format :edn}))
+        ws-channel (:ws-channel server-ch)
         container (.getElementById js/document "main")]
     (go-loop []
-      (when-let [envelope (<! (:ws-channel server-ch))]
-        (q/render (Game (:message envelope)) container)
-        (prn envelope)
+      (when-let [envelope (<! ws-channel)]
+        (q/render (Game (:message envelope) ws-channel) container)
+        (prn (:message envelope))
         (recur)))
     (prn (str "cannot read from server-ch" server-ch "any more"))))
   

@@ -4,7 +4,7 @@
             [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [resources]]
             [org.httpkit.server :refer [run-server]]
-            [tttclj.core :refer [create-game possible-moves successor]]
+            [tttclj.core :refer [create-game possible-moves successor is-game-over?]]
             [tttclj.prep :refer [prep]]))
 
 (defn index [req]
@@ -18,6 +18,17 @@
 (defn ws-handler [{:keys [ws-channel] :as req}]
   (println (:async-channel req))
   (let [game (atom (create-game))]
+    (go-loop []
+      (when-not (is-game-over? @game)
+        (let [move (:message (<! ws-channel))]
+          (when (contains? (apply vector (possible-moves @game)) move)
+            (swap! game #(successor % move))
+            (>! ws-channel (prep @game))
+            (<! (timeout 500))
+            (when-not (is-game-over? @game)
+              (swap! game make-random-move)
+              (>! ws-channel (prep @game))))))
+      (recur))
     (go
       (>! ws-channel (prep @game)))))
 
