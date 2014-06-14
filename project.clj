@@ -7,7 +7,7 @@
                  [quiescent "0.1.3"]
                  [jarohen/chord "0.4.1"]
                  [compojure "1.1.8" :exclusions [joda-time]]]
-  :profiles {:dev {:dependencies [[midje "1.5.0" :exclusions [org.codehaus.plexus/plexus-utils org.clojure/tools.macro]]]
+  :profiles {:dev {:dependencies [[midje "1.6.3" :exclusions [org.codehaus.plexus/plexus-utils org.clojure/tools.macro]]]
                    :plugins [[lein-cljsbuild "1.0.3"]]
                    :cljsbuild {:builds [{:source-paths ["src"]
                                          :compiler {:output-to "target/classes/public/app.js"
