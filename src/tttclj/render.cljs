@@ -45,13 +45,13 @@
 (enable-console-print!)
 
 (go
-  (let [server-ch (<! (ws-ch "ws://localhost:8080/ws" {:format :edn}))
-        ws-channel (:ws-channel server-ch)
+  (let [{:keys [ws-channel error]} (<! (ws-ch "ws://localhost:8080/ws"))
         container (.getElementById js/document "main")]
-    (go-loop []
-      (when-let [envelope (<! ws-channel)]
-        (q/render (Game (:message envelope) ws-channel) container)
-        (prn (:message envelope))
-        (recur)))
-    (prn (str "cannot read from server-ch" server-ch "any more"))))
+    (if error
+      (prn "Couldn't open websocket connection:" error)
+      (go-loop []
+        (when-let [envelope (<! ws-channel)]
+          (q/render (Game (:message envelope) ws-channel) container)
+          (recur)))
+      (prn (str "cannot read from server-ch" server-ch "any more")))))
   
