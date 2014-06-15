@@ -1,8 +1,8 @@
 (ns tttclj.solver
-  (:use tttclj.core))
+  (:require [tttclj.core :refer [game-over? successor possible-moves fitness]]))
 
 (defn- mm [game depth]
-  (if (or (zero? depth) (is-game-over? game))
+  (if (or (zero? depth) (game-over? game))
     (fitness game)
     (->> (possible-moves game)
          (map (fn [move] (- (mm (successor game move) (dec depth)))))
@@ -15,7 +15,7 @@
        (first)))
 
 (defn- ab [game depth alpha beta]
-  (if (or (zero? depth) (is-game-over? game))
+  (if (or (zero? depth) (game-over? game))
     (fitness game)
     (loop [moves (possible-moves game) bound alpha]
       (if (empty? moves)

@@ -60,13 +60,13 @@
       (successor 4)   ;; xx- oo- ---
       (successor 2))) ;; xxx oo- ---
 
-(facts "about `is-game-over?'"
+(facts "about `game-over?'"
        (fact "is not true at start of game"
-             (is-game-over? (create-game)) => false)
+             (game-over? (create-game)) => false)
        (fact "is true when no more moves left"
-             (is-game-over? game-drawn) => true)
+             (game-over? game-drawn) => true)
        (fact "is true when there is a winning line"
-             (is-game-over? game-won-by-x) => true))
+             (game-over? game-won-by-x) => true))
 
 (facts "about `winner'"
        (fact "is not true at start of game"

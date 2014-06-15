@@ -87,7 +87,7 @@
          (winner?))))
 
 
-(defn is-game-over? [game] 
+(defn game-over? [game] 
   "Returns `true' if the game is finished, nil otherwise"
   (if (not-any? #{:-} (:tiles game))
     true

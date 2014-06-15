@@ -12,7 +12,7 @@
              (minimax (create-game) 1) => 4)
        (fact "it plays a predictable game @ depth 3"
              (loop [game (create-game) history []]
-               (if (is-game-over? game)
+               (if (game-over? game)
                  (conj history game)
                  (recur (successor game (minimax game 3)) (conj history game))))
              => [{:player :x, :tiles [:- :- :- :- :- :- :- :- :-]}
@@ -29,7 +29,7 @@
 (facts "about alphabeta"
        (fact "it plays the same game as minimax"
              (loop [game (create-game) history []]
-               (if (is-game-over? game)
+               (if (game-over? game)
                  (conj history game)
                  (recur (successor game (alphabeta game 3)) (conj history game))))
              => [{:player :x, :tiles [:- :- :- :- :- :- :- :- :-]}

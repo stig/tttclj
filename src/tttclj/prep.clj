@@ -1,5 +1,5 @@
 (ns tttclj.prep
-  (:require [tttclj.core :refer [is-game-over? winner]]))
+  (:require [tttclj.core :refer [game-over? winner]]))
 
 (defn- prep-cell [player]
   (if (= player :-)
@@ -25,7 +25,7 @@ the client side. It looks something like this:
 {:turn: :x :cells [{:id 0 :player :x} {:id 1} ... ]}
 "
   (assoc 
-      (if (is-game-over? game)
+      (if (game-over? game)
         {:winner (winner game)}
         {:turn (:player game)})
     :cells (prep-cells (:tiles game))))
