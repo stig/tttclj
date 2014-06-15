@@ -7,13 +7,14 @@
                  [quiescent "0.1.3"]
                  [jarohen/chord "0.4.1"]
                  [compojure "1.1.8" :exclusions [joda-time]]]
-  :profiles {:dev {:dependencies [[midje "1.6.3" :exclusions [org.codehaus.plexus/plexus-utils org.clojure/tools.macro]]]
-                   :plugins [[lein-cljsbuild "1.0.3"]]
-                   :cljsbuild {:builds [{:source-paths ["src"]
-                                         :compiler {:output-to "target/classes/public/app.js"
-                                                    :optimizations :whitespace
-                                                    :pretty-print true}}]}}}
+  :plugins [[lein-cljsbuild "1.0.3"]]
+  :cljsbuild {:builds [{:source-paths ["src"]
+                        :jar true
+                        :compiler {:output-to "target/classes/public/app.js"
+                                   :optimizations :whitespace
+                                   :pretty-print true}}]}
+  :profiles {:dev {:dependencies [[midje "1.6.3" :exclusions [org.codehaus.plexus/plexus-utils org.clojure/tools.macro]]]}}
   :uberjar-name "tttclj-standalone.jar"
   :min-lein-version "2.0.0"
-  :main tttclj.web)
+  :main tttclj.web, :aot :all)
   
