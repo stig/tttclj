@@ -16,21 +16,20 @@
   (successor g (rand-nth (possible-moves g))))
 
 (defn ws-handler [{:keys [ws-channel] :as req}]
-  (println (:async-channel req))
+  (println "Opened connection from" (:remote-addr req))
   (let [game (atom (create-game))]
-    (go-loop []
-      (when-not (game-over? @game)
-        (let [move (:message (<! ws-channel))]
-          (when (contains? (apply vector (possible-moves @game)) move)
-            (swap! game #(successor % move))
-            (>! ws-channel (prep @game))
-            (<! (timeout 500))
-            (when-not (game-over? @game)
-              (swap! game make-random-move)
-              (>! ws-channel (prep @game))))))
-      (recur))
+    ;; Let's send a new game straight away.
     (go
-      (>! ws-channel (prep @game)))))
+      (>! ws-channel (prep @game)))
+    ;; Wait for moves from client. Apply them, and send new board back.
+    (go-loop []
+      (when-let [{:keys [message error] :as msg} (<! ws-channel)]
+        (when-not error
+          (when (some #(= % message) (possible-moves @game))
+            (swap! game #(successor % message))
+            (>! ws-channel (prep @game))))
+        (when-not (game-over? @game)
+          (recur))))))
 
 (defroutes app
   (resources "/")
