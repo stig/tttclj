@@ -43,5 +43,6 @@
   (GET "/" [] index))
 
 (defn -main [& args]
-  (run-server #'app {:port 8080})
-  (println "Started server on http://localhost:8080"))
+  (let [port (if (empty? args) 8080 (Integer. (first args)))]
+    (run-server app {:port port :join? false})
+    (println (str "Started server on http://localhost:" port))))
