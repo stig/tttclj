@@ -27,7 +27,11 @@
         (when-not error
           (when (some #(= % message) (possible-moves @game))
             (swap! game #(successor % message))
-            (>! ws-channel (prep @game)))
+            (>! ws-channel (prep @game))
+            (when-not (game-over? @game)
+              (<! (timeout 500))
+              (swap! game make-random-move)
+              (>! ws-channel (prep @game))))
           (when-not (game-over? @game)
             (recur)))))))
 
