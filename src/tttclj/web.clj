@@ -5,15 +5,16 @@
             [compojure.route :refer [resources]]
             [org.httpkit.server :refer [run-server]]
             [tttclj.core :refer [create-game possible-moves successor game-over?]]
-            [tttclj.prep :refer [prep]]))
+            [tttclj.prep :refer [prep]]
+            [tttclj.solver :refer [alphabeta]]))
 
 (defn index [req]
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body "Hello HTTP via Compojure!"})
 
-(defn- make-random-move [g]
-  (successor g (rand-nth (possible-moves g))))
+(defn- make-ai-move [g]
+  (successor g (alphabeta g 3)))
 
 (defn ws-handler [{:keys [ws-channel] :as req}]
   (println "Opened connection from" (:remote-addr req))
@@ -30,7 +31,7 @@
             (>! ws-channel (prep @game))
             (when-not (game-over? @game)
               (<! (timeout 500))
-              (swap! game make-random-move)
+              (swap! game make-ai-move)
               (>! ws-channel (prep @game))))
           (when-not (game-over? @game)
             (recur)))))))
