@@ -13,5 +13,7 @@
                                          :compiler {:output-to "target/classes/public/app.js"
                                                     :optimizations :whitespace
                                                     :pretty-print true}}]}}}
+  :uberjar-name "tttclj-standalone.jar"
+  :min-lein-version "2.0.0"
   :main tttclj.web)
   

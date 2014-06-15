@@ -1,0 +1,1 @@
+web: java $JVM_OPTS -cp target/tttclj-standalone.jar clojure.main -m tttclj.web $PORT
