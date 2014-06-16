@@ -10,6 +10,8 @@
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-beanstalk "0.2.7"]]
   :ring {:handler tttclj.web/app}
+  :aws {:beanstalk {:region "eu-west-1"}}
+  :war-resources-path "war-resources/.ebextensions"
   :cljsbuild {:builds [{:source-paths ["src"]
                         :jar true
                         :compiler {:output-to "target/classes/public/app.js"
