@@ -4,14 +4,10 @@
             [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [resources]]
             [org.httpkit.server :refer [run-server]]
+            [ring.util.response :refer [redirect]]
             [tttclj.core :refer [create-game possible-moves successor game-over?]]
             [tttclj.prep :refer [prep]]
             [tttclj.solver :refer [alphabeta]]))
-
-(defn index [req]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body "Hello HTTP via Compojure!"})
 
 (defn- make-ai-move [g]
   (successor g (alphabeta g 3)))
@@ -40,7 +36,7 @@
   (resources "/")
   (GET "/ws" [] (-> ws-handler
                     (wrap-websocket-handler {:format :edn})))
-  (GET "/" [] index))
+  (GET "/" [] (redirect "/index.html")))
 
 (defn -main [& args]
   (let [port (if (empty? args) 8080 (Integer. (first args)))]
