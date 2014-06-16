@@ -1,6 +1,7 @@
 (ns tttclj.render
   (:require [chord.client :refer [ws-ch]]
             [cljs.core.async :refer [chan <! >! put! close! timeout]]
+            [clojure.string :refer [replace-first]]
             [quiescent :as q :include-macros true]
             [quiescent.dom :as d])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
@@ -45,7 +46,10 @@
 (enable-console-print!)
 
 (go
-  (let [{:keys [ws-channel error]} (<! (ws-ch "ws://localhost:8080/ws"))
+  (let [url (-> (aget js/window "location" "href")
+                (replace-first #"http" "ws")
+                (replace-first #"index.html" "ws"))
+        {:keys [ws-channel error]} (<! (ws-ch url))
         container (.getElementById js/document "main")]
     (if error
       (prn "Couldn't open websocket connection:" error)
