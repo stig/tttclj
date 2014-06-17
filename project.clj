@@ -1,12 +1,14 @@
 (defproject tttclj "0.0.1-SNAPSHOT"
   :description "A TicTacToe game using Websockets & Clojurescript"
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/core.async "0.1.303.0-886421-alpha"]
-                 [org.clojure/clojurescript "0.0-2227"]
+  :dependencies [[compojure "1.1.8" :exclusions [joda-time]]
                  [http-kit "2.1.16"]
-                 [quiescent "0.1.3"]
                  [jarohen/chord "0.4.1"]
-                 [compojure "1.1.8" :exclusions [joda-time]]]
+                 [org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojurescript "0.0-2227"]
+                 [org.clojure/core.async "0.1.303.0-886421-alpha"]
+                 [quiescent "0.1.3"]
+                 [ring/ring-core "1.1.8"] 
+                 [ring/ring-devel "1.1.8"]]
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-beanstalk "0.2.7"]]
   :ring {:handler tttclj.web/app}
