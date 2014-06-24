@@ -1,4 +1,4 @@
-(ns tttclj.t-core
+(ns tttclj.core-test
   (:require [midje.sweet :refer :all]
             [tttclj.core :refer :all]))
 

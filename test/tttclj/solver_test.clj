@@ -1,4 +1,4 @@
-(ns tttclj.t-solver
+(ns tttclj.solver-test
   (:require [midje.sweet :refer :all]
             [tttclj.core :refer :all]
             [tttclj.solver :refer :all]))
