@@ -10,7 +10,6 @@
 
 (defn ws-handler [{:keys [ws-channel] :as req}]
   (println "Opened connection from" (:remote-addr req))
-
   (start-game-loop (create-game) ws-channel))
 
 (defroutes app
