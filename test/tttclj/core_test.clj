@@ -8,13 +8,13 @@
                  (map :player)
                  (frequencies)) => { :x 100 })
        (fact "no tiles are set to start with"
-             (frequencies (:tiles (create-game))) => { :- 9 }))
+             (frequencies (:tiles (create-game))) => { nil 9 }))
 
 (facts "about `successor'"
        (fact "should swap the player to :o"
              (:player (successor (create-game) 0)) => :o)
        (fact "one tile is taken now"
-             (frequencies (:tiles (successor (create-game) 3))) => { :- 8 :x 1})
+             (frequencies (:tiles (successor (create-game) 3))) => { nil: 8 :x 1})
        (fact "cannot make same move again"
              (successor (successor (create-game) 3) 3) => nil))
 

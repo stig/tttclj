@@ -2,27 +2,30 @@
 
 (defn create-game []
   {:player :x
-   :tiles (apply vector (repeat 9 :-)) } )
+   :tiles (vec (repeat 9 nil)) } )
 
 (defn- opponent [player]
   (cond (= :x player) :o
         (= :o player) :x))
 
-(defn- is-legal-move? [game idx]
-  (= :- (nth (:tiles game) idx)))
+(defn legal-move? [game move]
+  "Is move legal in this game?"
+  (not (get (:tiles game) move)))
 
-(defn successor [game idx]
+(defn successor [game move]
   "Returns the game state resulting from current player picking the given slot"
-  (cond (is-legal-move? game idx)
+  (cond (legal-move? game move)
         (let [p (:player game)
               t (:tiles game)
               g (assoc game :player (opponent p))]
-          (assoc-in g [:tiles idx] p))))
+          (assoc-in g [:tiles move] p))))
 
 (defn possible-moves [game]
   "Returns a vector of possible moves at this game state"
-  (->> (map-indexed vector (:tiles game))
-       (keep #(cond (= :- (second %)) (first %)))))
+  (->> (:tiles game)
+       (map-indexed vector) 
+       (keep #(cond (nil? (second %)) (first %)))))
+
 
 (defn lines []
   "All possible winning lines"
@@ -42,7 +45,7 @@
   (let [tiles (:tiles game)
         player (:player game)
         opponent (opponent player)
-        scores { player 1, opponent -1, :- 0}] 
+        scores { player 1, opponent -1, nil 0}] 
 
     ;; for all possible winning lines..
     (->> (lines)
@@ -51,7 +54,7 @@
          (map #(map tiles %))
 
          ;; discard all-empty lines
-         (remove #(every? (fn [x] (= x :-)) %))
+         (remove #(every? nil? %))
 
          ;; discard any lines with both players' pieces,
          ;; as these cannot make winning lines
@@ -89,7 +92,7 @@
 
 (defn game-over? [game] 
   "Returns `true' if the game is finished, nil otherwise"
-  (if (not-any? #{:-} (:tiles game))
+  (if (not-any? nil? (:tiles game))
     true
     (not (nil? (winner game)))))
 

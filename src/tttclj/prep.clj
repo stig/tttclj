@@ -2,7 +2,7 @@
   (:require [tttclj.core :refer [game-over? winner]]))
 
 (defn- prep-cell [player]
-  (if (= player :-)
+  (if (nil? player)
     {}
     {:player player}))
 
