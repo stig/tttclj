@@ -16,7 +16,7 @@
        (fact "one tile is taken now"
              (frequencies (:tiles (successor (create-game) 3))) => { nil 8 :x 1})
        (fact "cannot make same move again"
-             (successor (successor (create-game) 3) 3) => nil))
+             (successor (successor (create-game) 3) 3) => (throws java.lang.AssertionError)))
 
 (facts "about `possible-moves'"
        (fact "there should be 9 to start"

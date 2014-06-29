@@ -13,14 +13,15 @@
   (not (get (:tiles game) move)))
 
 (defn successor [game move]
+  {:pre [(not (game-over? game)) (legal-move? game move)]}
   "Returns the game state resulting from current player picking the given slot"
-  (cond (legal-move? game move)
-        (let [p (:player game)
-              t (:tiles game)
-              g (assoc game :player (opponent p))]
-          (assoc-in g [:tiles move] p))))
+  (let [p (:player game)
+        t (:tiles game)
+        g (assoc game :player (opponent p))]
+    (assoc-in g [:tiles move] p)))
 
 (defn possible-moves [game]
+  {:pre [(not (game-over? game))]}
   "Returns a vector of possible moves at this game state"
   (->> (:tiles game)
        (map-indexed vector) 
