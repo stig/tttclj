@@ -50,7 +50,7 @@
     ;; for all possible winning lines..
     (->> (lines)
 
-         ;; find picees at locations for each line
+         ;; find pieces at locations for each line
          (map #(map tiles %))
 
          ;; discard all-empty lines
@@ -58,7 +58,9 @@
 
          ;; discard any lines with both players' pieces,
          ;; as these cannot make winning lines
-         (remove #(every? (into #{} %) #{:x :o}))
+         (remove #(and
+                   (some #{:o} %)
+                   (some #{:x} %)))
 
          ;; map to player scores per line
          (map #(reduce + (map scores %)))

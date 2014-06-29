@@ -14,7 +14,7 @@
        (fact "should swap the player to :o"
              (:player (successor (create-game) 0)) => :o)
        (fact "one tile is taken now"
-             (frequencies (:tiles (successor (create-game) 3))) => { nil: 8 :x 1})
+             (frequencies (:tiles (successor (create-game) 3))) => { nil 8 :x 1})
        (fact "cannot make same move again"
              (successor (successor (create-game) 3) 3) => nil))
 
