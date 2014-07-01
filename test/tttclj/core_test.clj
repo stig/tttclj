@@ -34,31 +34,19 @@
        (fact "--- -x- ---"
              (fitness (successor (create-game) 4)) => -4)
        (fact "o-- -x- ---"
-             (fitness (-> (create-game) (successor 4) (successor 0))) => 1)
+             (fitness (reduce successor (create-game) [4 0])) => 1)
        (fact "-o- -x- ---"
-             (fitness (-> (create-game) (successor 4) (successor 1))) => 2)
+             (fitness (reduce successor (create-game) [4 1])) => 2)
        (fact "--o -xx ---"
-             (fitness (-> (create-game) (successor 4) (successor 2) (successor 5))) => -9))
+             (fitness (reduce successor (create-game) [4 2 5])) => -9))
 
+;; xxo oox xox
 (def game-drawn
-  (-> (create-game)
-      (successor 0)   ;; x-- --- ---
-      (successor 3)   ;; x-- o-- ---
-      (successor 1)   ;; xx- o-- ---
-      (successor 4)   ;; xx- oo- ---
-      (successor 6)   ;; xx- oo- x--
-      (successor 2)   ;; xxo oo- x--
-      (successor 5)   ;; xxo oox x--
-      (successor 7)   ;; xxo oox xo-
-      (successor 8))) ;; xxo oox xox
+  (reduce successor (create-game) [0 3 1 4 6 2 5 7 8]))
 
+;; xxx oo- ---
 (def game-won-by-x
-  (-> (create-game)
-      (successor 0)   ;; x-- --- ---
-      (successor 3)   ;; x-- o-- ---
-      (successor 1)   ;; xx- o-- ---
-      (successor 4)   ;; xx- oo- ---
-      (successor 2))) ;; xxx oo- ---
+  (reduce successor (create-game) [0 3 1 4 2]))
 
 (facts "about `game-over?'"
        (fact "is not true at start of game"
