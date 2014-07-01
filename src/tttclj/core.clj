@@ -12,6 +12,45 @@
   "Is move legal in this game?"
   (not (get (:tiles game) move)))
 
+(defn- is-winning-line? [line] 
+  (or
+   (every? #{:o} line)
+   (every? #{:x} line)))
+
+(defn- winner? [line]
+  (if (empty? line)
+    nil
+    (first line)))
+
+(defn lines []
+  "All possible winning lines"
+  [[0 1 2] ;; horizontal
+   [3 4 5]
+   [6 7 8]
+
+   [0 3 6] ;; vertical
+   [1 4 7]
+   [2 5 8]
+
+   [0 4 8] ;; diagonal
+   [2 4 6]])
+
+(defn winner [game]
+  "Returns the winning player, or nil if there is no winner"
+  (let [tiles (:tiles game)]
+    (->> (lines)
+         (map #(map tiles %))
+         (filter is-winning-line?)
+         (first)
+         (winner?))))
+
+
+(defn game-over? [game] 
+  "Returns `true' if the game is finished, nil otherwise"
+  (if (not-any? nil? (:tiles game))
+    true
+    (not (nil? (winner game)))))
+
 (defn successor [game move]
   {:pre [(not (game-over? game)) (legal-move? game move)]}
   "Returns the game state resulting from current player picking the given slot"
@@ -27,19 +66,6 @@
        (map-indexed vector) 
        (keep #(cond (nil? (second %)) (first %)))))
 
-
-(defn lines []
-  "All possible winning lines"
-  [[0 1 2] ;; horizontal
-   [3 4 5]
-   [6 7 8]
-
-   [0 3 6] ;; vertical
-   [1 4 7]
-   [2 5 8]
-
-   [0 4 8] ;; diagonal
-   [2 4 6]])
 
 (defn fitness [game]
   "Calculates the fitness of a particular game state"
@@ -73,29 +99,4 @@
          ;; Add up total score for the board
          (reduce +))))
 
-(defn- is-winning-line? [line] 
-  (or
-   (every? #{:o} line)
-   (every? #{:x} line)))
-
-(defn- winner? [line]
-  (if (empty? line)
-    nil
-    (first line)))
-
-(defn winner [game]
-  "Returns the winning player, or nil if there is no winner"
-  (let [tiles (:tiles game)]
-    (->> (lines)
-         (map #(map tiles %))
-         (filter is-winning-line?)
-         (first)
-         (winner?))))
-
-
-(defn game-over? [game] 
-  "Returns `true' if the game is finished, nil otherwise"
-  (if (not-any? nil? (:tiles game))
-    true
-    (not (nil? (winner game)))))
 
