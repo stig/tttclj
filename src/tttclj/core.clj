@@ -18,8 +18,7 @@
    (every? #{:x} line)))
 
 (defn- winner? [line]
-  (if (empty? line)
-    nil
+  (when-not (empty? line)
     (first line)))
 
 (defn lines []

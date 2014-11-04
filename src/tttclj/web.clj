@@ -22,8 +22,7 @@
 
 (defroutes app
   (resources "/")
-  (GET "/ws" [] (-> ws-handler
-                    (wrap-websocket-handler {:format :edn})))
+  (GET "/ws" [] (wrap-websocket-handler ws-handler {:format :edn}))
   (GET "/" [] (redirect "/index.html")))
 
 (defn -main [& args]
